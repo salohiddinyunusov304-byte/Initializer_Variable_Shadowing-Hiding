@@ -1,24 +1,65 @@
 package org.example;
 
-import static org.example.Static_Block.dbUrl;
-import static org.example.Static_Block.timeout;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Random;
+import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) {
+        /// Variable shadowing - mwtodni ichidagi ozgaruvchi bn metodni tashqarisidagi
+        /// class ichida ozgaruvchi bir xil nom qiymat har xil:
+        /// Ichki ozgaruvchi tashqini soyalaydi (yopadi).
 
-        /// Non-static - har bir obyekt uchun bir xil qiymatni bervorish uchun
-        Non_static_block nonStaticBlock = new Non_static_block("Salohiddin");
-        System.out.println(nonStaticBlock.id);
+        Employee emp = new Employee();
+        emp.printName("Local ozgaruvchi: Jasur");
 
-        Non_static_block nonStaticBlock1 = new Non_static_block("Jasur");
-        System.out.println(nonStaticBlock1.id);
+        /// Variable hiding - sub va superda bir xil variable, sub supperni yashirib qoyadi.
+        Parent parent = new Child();
 
-        /// Static - (Main dan oldin ishga tushadi) dastur ilk bor yuklanganda faqat 1 martta ishga tushadi, 1 martta qiymat berish uchun
-        System.out.println("Main metod boshlandi.");
-        System.out.println("DB URL: " + dbUrl);
-        System.out.println("Timeout: " + timeout);
+        // Diqqat! Polymorphism o'zgaruvchilar uchun ishlamaydi!
+        // Havola turi Parent boYo'l olgani uchun Parent'dagi o'zgaruvchi chiqadi.
+        System.out.println(parent.role);
 
-        // Ikkinchi marta classga murojaat qilinsa ham static blok qayta ishlamaydi
-        Static_Block config = new Static_Block();
+        /// UUID
+        System.out.println(UUID.randomUUID());
+
+        /// Error - dastur daraajasidagi, kop holatda tuzatib bolmaydigan xatolik. Masalan, OutOfMemoryError, StackOverflowError
+        // try-catch tavsiya etilmaydi
+
+        /// Exception - dastur kodi ichida sodir boladi.
+        // try-catch orqali ushlash zarur, 2 ta turi bor.
+
+        /// Checked Exception - try catch orqali ushlnadigan exception turi
+//        try {
+//            // Mavjud bolmagan fileni ochish
+//            FileInputStream fileInputStream = new FileInputStream("files/text.txt");
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+
+        /// Unchecked Exception - Tekshirilmaydigan.
+        // ArrayIndexOutOfBoundsException
+        int[] arr = {1, 2, 3};
+
+        try {
+            System.out.println(arr[5]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Xatolik ushlandi !");
+        }
+        // NullPointerException
+//        String s = null;
+//        System.out.println(s.length());
+
+        // ArifmeticException
+        int a = 10;
+//        System.out.println(a / 0);
+
+        try {
+            a /= 0;
+        } catch (ArithmeticException e) {
+            System.out.println("0 ga bolish mumkin emas !");
+        }
+
     }
 }
